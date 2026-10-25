@@ -1,20 +1,49 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import { ScrollView, StyleSheet, Text } from "react-native";
+import OrderSummary from "./OrderSummary";
+import MenuItem from "./MenuItem";
+
+const DAFTAR_MENU = [
+  { id: "1", nama: "Kopi Susu Catnip", harga: 20000 },
+  { id: "2", nama: "Matcha Paw Latte", harga: 25000 },
+  { id: "3", nama: "Croissant Ikan Tuna", harga: 18000 },
+];
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const [totalPesanan, setTotalPesanan] = useState(0);
 
-const styles = StyleSheet.create({
+  const handleTambahPesanan = () => {
+    setTotalPesanan(totalPesanan + 1);
+  };
+
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.header}>Aplikasi Pemesanan Kafe Kucing</Text>
+
+      <OrderSummary totalCount={totalPesanan}/>
+
+      {DAFTAR_MENU.map((item) => (
+        <MenuItem
+          key={item.id}
+          nama={item.nama}
+          harga={item.harga}
+          onTambahPesanan={handleTambahPesanan}
+        />
+      ))}
+    </ScrollView>
+  );
+};
+
+const styles = StyleSheet.create ({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 20,
+    paddingTop: 50,
+    backgroundColor: "#fff",
+  },
+  header: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 20,
   },
 });
